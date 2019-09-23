@@ -8,7 +8,8 @@ if __name__ == '__main__':
         print("Do you want to:")
         print("1. You play with a robot?")
         print("2. Robot play with a robot?")
-        print("3. Exit?")
+        print("3. Two Human player mode?")
+        print("4. Exit?")
         ans = input("")
         if ans in ["1", "2", "3"]:
             if ans == "1":
@@ -16,6 +17,8 @@ if __name__ == '__main__':
             if ans == "2":
                 play(TypeOfPlayer.ROBOT_1, TypeOfPlayer.ROBOT_2)
             if ans == "3":
+                play(TypeOfPlayer.REAL, TypeOfPlayer.REAL2)
+            if ans == "4":
                 exit()
 
 

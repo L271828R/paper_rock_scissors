@@ -9,6 +9,7 @@ class Options:
 
 class TypeOfPlayer:
     REAL = "REAL"
+    REAL2 = "REAL2"
     ROBOT_1 = "ROBOT_1"
     ROBOT_2 = "ROBOT_2"
 
@@ -25,6 +26,9 @@ class Logic:
         for option in Logic.OPTIONS:
             if option['pair'] == pair:
                 win = option['winner']
+                msg = option['message']
+                print(msg)
+                print("Winner is...")
                 break
         if win == p1.decision:
             p1.increase_score()
@@ -36,15 +40,15 @@ class Logic:
             return None
 
     OPTIONS = [ 
-            {'pair': (Options.PAPER, Options.ROCK), 'winner': Options.PAPER},
-            {'pair': (Options.PAPER, Options.SCISSORS), 'winner': Options.SCISSORS},
-            {'pair': (Options.PAPER, Options.PAPER), 'winner': None},
-            {'pair': (Options.ROCK, Options.PAPER), 'winner': Options.PAPER},
-            {'pair': (Options.ROCK, Options.SCISSORS), 'winner': Options.ROCK},
-            {'pair': (Options.ROCK, Options.ROCK), 'winner': None},
-            {'pair': (Options.SCISSORS, Options.PAPER), 'winner': Options.SCISSORS},
-            {'pair': (Options.SCISSORS, Options.ROCK), 'winner': Options.ROCK},
-            {'pair': (Options.SCISSORS, Options.SCISSORS), 'winner': None}
+            {'pair': (Options.PAPER, Options.ROCK), 'winner': Options.PAPER, 'message':'Paper covers rock!'},
+            {'pair': (Options.PAPER, Options.SCISSORS), 'winner': Options.SCISSORS, 'message':'This is a tie!'},
+            {'pair': (Options.PAPER, Options.PAPER), 'winner': None,'message':'This is a tie!'},
+            {'pair': (Options.ROCK, Options.PAPER), 'winner': Options.PAPER,'message':'This is a tie!'},
+            {'pair': (Options.ROCK, Options.SCISSORS), 'winner': Options.ROCK,'message':'Rock smashes scissors!'},
+            {'pair': (Options.ROCK, Options.ROCK), 'winner': None,'message':'This is a tie!'},
+            {'pair': (Options.SCISSORS, Options.PAPER), 'winner': Options.SCISSORS,'message':'Scisors cut paper!'},
+            {'pair': (Options.SCISSORS, Options.ROCK), 'winner': Options.ROCK,'message':'This is a tie!'},
+            {'pair': (Options.SCISSORS, Options.SCISSORS), 'winner': None,'message':'This is a tie!'}
     ]
 
 class BasePlayer:
@@ -58,7 +62,25 @@ class BasePlayer:
     def make_decision(self):
         if self.type == TypeOfPlayer.REAL:
             while(True):
-                print("Choose [P]aper [R]ock [S]cissor [E]xit")
+                print("Player 1: Choose [P]aper [R]ock [S]cissor [E]xit")
+                print("--------------------------------------------")
+                ans = input("").lower()
+                if ans in ['p', 'r', 's', 'e']:
+                    if ans == 'p':
+                        self.decision = Options.PAPER
+                        break
+                    if ans == 'r':
+                        self.decision = Options.ROCK
+                        break
+                    if ans == 's':
+                        self.decision = Options.SCISSORS
+                        break
+                    if ans == 'e':
+                        clear_screen()
+                        exit()
+        if self.type == TypeOfPlayer.REAL2:
+            while(True):
+                print("Player 2: Choose [P]aper [R]ock [S]cissor [E]xit")
                 print("--------------------------------------------")
                 ans = input("").lower()
                 if ans in ['p', 'r', 's', 'e']:
@@ -105,10 +127,9 @@ def play(p1_type, p2_type):
         print(str(p1) + ' picked ', p1.decision)
         print(str(p2) + ' picked ', p2.decision)
         print("")
-        print("Winner is...")
         print(Logic.get_winner(p1, p2))
         print("")
-        ans = input("[ENTER] or [E]xit [M]enu\r\n").lower()
+        ans = input("Play again? [ENTER], [E]xit or go to [M]enu\r\n").lower()
         if ans == 'e':
             exit()
         if ans == 'm':
